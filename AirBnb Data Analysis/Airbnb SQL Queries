@@ -1,1 +1,210 @@
+New York City Airbnb Case Study
+Appendix
+SQL Codes:
+# to get number of listings in each neighbourhood group
+select neighbourhood_group,count(*) from mytable
+group by neighbourhood_group;
+
+# to get top 10 neighbourhoods based on average price
+select neighbourhood,avg(price) from mytable
+group by neighbourhood
+order by avg(price) desc limit 10;
+
+# to sort neighbourhood groups based on average price
+select neighbourhood_group,avg(price) from mytable
+group by neighbourhood_group
+order by avg(price)desc ;
+
+# to find average price of listings by room type
+select room_type,avg(price) from mytable
+group by room_type
+order by avg(price) desc;
+
+# to find the maximum number of host listing 
+select max(calculated_host_listings_count) from mytable
+
+#finding the host name of the person with the most listing 
+select distinct host_name from mytable 
+Where calculated_host_listings_count =
+(select max(calculated_host_listings_count) from mytable)
+
+#finding the Neighbourhood group where the listing of the person with the most listing
+select neighbourhood_group, COUNT(neighbourhood_group) from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count) from mytable)
+GROUP BY neighbourhood_group
+ORDER BY COUNT(neighbourhood_group)
+
+#finding the Neighbourhood where the listing of the person with the most listing
+select neighbourhood, COUNT(neighbourhood) from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count) from mytable)
+GROUP BY neighbourhood
+ORDER BY COUNT(neighbourhood) desc
+
+#finding the average price of the person with the most listing based on Neighbourhoods
+select neighbourhood, COUNT(neighbourhood), avg(price) 
+from mytable 
+where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable)
+GROUP BY neighbourhood
+ORDER BY avg(price) DESC
+
+#What are the room types of the person with the most listing based on Neighbourhoods?
+##In Theater District
+WITH
+T1 AS (select count(room_type) as Shared from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="shared Room" AND neighbourhood = "Theater District"),
+T2 AS (select count(room_type) as EHA from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Entire home/apt" AND neighbourhood = "Theater District"),
+T3 AS (select count(room_type) as SINGLE from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Private Room" AND neighbourhood = "Theater District"),
+T4 AS (select count(room_type) as APTS from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) AND neighbourhood = "Theater District")
+ 
+select EHA/APTS AS PERCOFEHA, SINGLE/APTS AS PERCOFSIG, shared/APTS AS PERCOFSHAR
+FROM T1,T2,T3,T4
+
+#In Financial district
+WITH 
+T1 AS (select count(room_type) as Shared from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="shared Room" AND neighbourhood = "Financial district"),
+T2 AS (select count(room_type) as EHA from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Entire home/apt" AND neighbourhood = "Financial district"),
+T3 AS (select count(room_type) as SINGLE from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Private Room" AND neighbourhood = "Financial district"),
+T4 AS (select count(room_type) as APTS from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) AND neighbourhood = "Financial district")
+
+select EHA/APTS AS PERCOFEHA, SINGLE/APTS AS PERCOFSIG, shared/APTS AS PERCOFSHAR
+FROM T1,T2,T3,T4
+
+#In Chelsea
+WITH
+T1 AS (select count(room_type) as Shared from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="shared Room" AND neighbourhood = "Chelsea"),
+T2 AS (select count(room_type) as EHA from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Entire home/apt" AND neighbourhood = "Chelsea"),
+T3 AS (select count(room_type) as SINGLE from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Private Room" AND neighbourhood = "Chelsea"),
+T4 AS (select count(room_type) as APTS from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) AND neighbourhood = "Chelsea")
+ 
+select EHA/APTS AS PERCOFEHA, SINGLE/APTS AS PERCOFSIG, shared/APTS AS PERCOFSHAR
+FROM T1,T2,T3,T4
+
+#In Murray Hill
+WITH
+T1 AS (select count(room_type) as Shared from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="shared Room" AND neighbourhood = "Murray Hill"),
+T2 AS (select count(room_type) as EHA from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Entire home/apt" AND neighbourhood = "Murray Hill"),
+T3 AS (select count(room_type) as SINGLE from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Private Room" AND neighbourhood = "Murray Hill"),
+T4 AS (select count(room_type) as APTS from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) AND neighbourhood = "Murray Hill")
+ 
+select EHA/APTS AS PERCOFEHA, SINGLE/APTS AS PERCOFSIG, shared/APTS AS PERCOFSHAR
+FROM T1,T2,T3,T4
+
+#In Midtown
+WITH
+T1 AS (select count(room_type) as Shared from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="shared Room" AND neighbourhood = "Midtown"),
+T2 AS (select count(room_type) as EHA from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Entire home/apt" AND neighbourhood = "Midtown"),
+T3 AS (select count(room_type) as SINGLE from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Private Room" AND neighbourhood = "Midtown"),
+T4 AS (select count(room_type) as APTS from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) AND neighbourhood = "Midtown")
+ 
+select EHA/APTS AS PERCOFEHA, SINGLE/APTS AS PERCOFSIG, shared/APTS AS PERCOFSHAR
+FROM T1,T2,T3,T4
+
+#In  Hell’s kitchen
+WITH
+T1 AS (select count(room_type) as Shared from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="shared Room" AND neighbourhood = "Hell's kitchen"),
+T2 AS (select count(room_type) as EHA from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Entire home/apt" AND neighbourhood = "Hell's kitchen"),
+T3 AS (select count(room_type) as SINGLE from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Private Room" AND neighbourhood = "Hell's kitchen"),
+T4 AS (select count(room_type) as APTS from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) AND neighbourhood = "Hell's kitchen")
+ 
+select EHA/APTS AS PERCOFEHA, SINGLE/APTS AS PERCOFSIG, shared/APTS AS PERCOFSHAR
+FROM T1,T2,T3,T4
+
+#In Upper Eastside
+WITH
+T1 AS (select count(room_type) as Shared from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="shared Room" AND neighbourhood = "Hell's kitchen"),
+T2 AS (select count(room_type) as EHA from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Entire home/apt" AND neighbourhood = "Hell's kitchen"),
+T3 AS (select count(room_type) as SINGLE from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) and room_type="Private Room" AND neighbourhood = "Hell's kitchen"),
+T4 AS (select count(room_type) as APTS from mytable where calculated_host_listings_count=(select max(calculated_host_listings_count)from mytable) AND neighbourhood = "Hell's kitchen")
+ 
+select EHA/APTS AS PERCOFEHA, SINGLE/APTS AS PERCOFSIG, shared/APTS AS PERCOFSHAR
+FROM T1,T2,T3,T4
+
+#find out the most average monthly reviews
+select neighbourhood_group, avg(reviews_per_month)
+from mytable
+where neighbourhood_group = "Brooklyn"
+group by neighbourhood_group
+
+select neighbourhood_group, avg(reviews_per_month)
+from mytable
+where neighbourhood_group = "Manhattan"
+group by neighbourhood_group
+
+select neighbourhood_group, avg(reviews_per_month)
+from mytable
+where neighbourhood_group = "Queens"
+group by neighbourhood_group
+
+select neighbourhood_group, avg(reviews_per_month)
+from mytable
+where neighbourhood_group = "Staten Island"
+group by neighbourhood_group
+
+select neighbourhood_group, avg(reviews_per_month)
+from mytable
+where neighbourhood_group = "Bronx"
+group by neighbourhood_group
+
+#find out the price vs reviews
+select name, neighbourhood_group, room_type,reviews_per_month, price
+from mytable
+where price > (select avg(price) from mytable)
+
+select name, neighbourhood_group, room_type,reviews_per_month, price
+from mytable
+where price < (select avg(price) from mytable)
+
+#find out average price for listing with specific words 
+with cte1 as (
+Select price
+from mytable as bnb
+where number_of_reviews >50 and name like "%modern%"),
+cte2 as (
+select price
+from mytable as bnb
+where number_of_reviews >50 and name not like "%modern%")
+select avg(cte1.price) as avg_price_yes_modern, avg(cte2.price) as avg_price_no_modern
+from cte1,cte2; 
+
+with cte1 as (
+Select price
+from mytable as bnb
+where number_of_reviews >50 and name like "%lovely%"),
+cte2 as (
+select price
+from mytable as bnb
+where number_of_reviews >50 and name not like "%lovely%")
+select avg(cte1.price) as avg_price_yes_lovely, avg(cte2.price) as avg_price_no_lovely
+from cte1,cte2; 
+
+with cte1 as (
+Select price
+from mytable as bnb
+where number_of_reviews >50 and name like "%luxury%"),
+cte2 as (
+select price
+from mytable as bnb
+where number_of_reviews >50 and name not like "%luxury%")
+select avg(cte1.price) as avg_price_yes_luxury, avg(cte2.price) as avg_price_no_luxury
+from cte1,cte2; 
+
+with cte1 as (
+Select price
+from mytable as bnb
+where number_of_reviews >50 and name like "%loft%"),
+cte2 as (
+select price
+from mytable as bnb
+where number_of_reviews >50 and name not like "%loft%")
+select avg(cte1.price) as avg_price_yes_loft, avg(cte2.price) as avg_price_no_loft
+from cte1,cte2; 
+
+with cte1 as (
+Select price
+from mytable as bnb
+where number_of_reviews >50 and name like "%spacious%"),
+cte2 as (
+select price
+from mytable as bnb
+where number_of_reviews >50 and name not like "%spacious%")
+select avg(cte1.price) as avg_price_yes_space, avg(cte2.price) as avg_price_no_space
+from cte1,cte2; 
+
 
